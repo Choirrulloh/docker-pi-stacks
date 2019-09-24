@@ -71,9 +71,9 @@ services:
       - backend
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.whoami.rule=Host(`heimdall.${FQDN}`)"
-      - "traefik.http.routers.whoami.entrypoints=websecure"
-      - "traefik.http.routers.whoami.tls.certresolver=mydnschallenge" # Uses the Host rule to define which certificate to issue
+      - "traefik.http.routers.heimdall.rule=Host(`heimdall.${FQDN}`)"
+      - "traefik.http.routers.heimdall.entrypoints=websecure"
+      - "traefik.http.routers.heimdall.tls.certresolver=mydnschallenge" # Uses the Host rule to define which certificate to issue
 
 networks:
   frontend:
