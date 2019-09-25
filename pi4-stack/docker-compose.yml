@@ -85,7 +85,8 @@ services:
       - "traefik.enable=true"
       # OAuth 2.0 Configuration
       - "traefik.http.routers.oauth.tls.certresolver=mydnschallenge" # Uses the Host rule to define which certificate to issue
-      - "traefik.http.routers.oauth.rule=HostRegexp:{subdomain:.+}.${FQDN},${FQDN}; PathPrefix:/oauth2"
+      - "traefik.http.routers.oauth.rule=HostRegexp:{subdomain:.+}.${FQDN},${FQDN}; PathPrefix:/oauth2" #Need to change
+      #- "traefik.http.routers.oauth.rule=HostRegexp(`${FQDN}`, `{subdomain:[a-z]+}.${FQDN}`, ...) #Follow this example
       - "traefik.http.routers.oauth.entrypoints=websecure"
       - "traefik.http.services.oauth.loadbalancer.server.port=4180"  #used to be traefik.port
       # Require OAuth 2.0 for authentication
