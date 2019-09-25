@@ -495,11 +495,7 @@ services:
 
   portainer:
     image: portainer/portainer
-    container_name: portainer      # Require OAuth 2.0 for authentication
-      - "traefik.http.middlewares.test-auth.forwardauth.address=https://${FQDN}/oauth2/auth"
-      - "traefik.http.middlewares.test-auth.forwardauth.trustForwardHeader=true"
-      - "traefik.http.middlewares.test-auth.forwardauth.authResponseHeaders=X-Auth-User, X-Secret"
-
+    container_name: portainer
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${CONFIG_DIR}/portainer:/data
