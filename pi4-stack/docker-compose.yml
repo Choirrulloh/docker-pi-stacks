@@ -102,7 +102,7 @@ services:
 # https://docs.traefik.io/v2.0/getting-started/quick-start/
 ##########################################################################
 
-  reverse-proxy:
+  traefik:
     # The official v2.0 Traefik docker image
     image: traefik:v2.0
     container_name: traefik
@@ -133,6 +133,7 @@ services:
       #- CF_API_EMAIL
       #- CF_API_KEY # Use the Global API Key, not the Origin CA Key 
     volumes:
+      - ${CONFIG_DIR}/traefik-v2:/etc/traefik # remove the '-v2' once this goes into prod
       - ${CONFIG_DIR}/letsencrypt:/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock:ro # So that Traefik can listen to the Docker events
     networks:
@@ -140,11 +141,11 @@ services:
     labels:
       # Traefik Routing
       - "traefik.enable=true"
-      - "traefik.http.routers.reverse-proxy.rule=Host(`traefik.${FQDN}`)"
-      - "traefik.http.routers.reverse-proxy.entrypoints=websecure"
-      - "traefik.http.routers.reverse-proxy.tls.certresolver=mydnschallenge" # Uses the Host rule to define which certificate to issue
-      - "traefik.http.routers.reverse-proxy.tls.domains[0].main=${FQDN}" # Wildcard Certificates
-      - "traefik.http.routers.reverse-proxy.tls.domains[0].sans=*.${FQDN}" # Wildcard Certificates
+      - "traefik.http.routers.traefik.rule=Host(`traefik.${FQDN}`)"
+      - "traefik.http.routers.traefik.entrypoints=websecure"
+      - "traefik.http.routers.traefik.tls.certresolver=mydnschallenge" # Uses the Host rule to define which certificate to issue
+      - "traefik.http.routers.traefik.tls.domains[0].main=${FQDN}" # Wildcard Certificates
+      - "traefik.http.routers.traefik.tls.domains[0].sans=*.${FQDN}" # Wildcard Certificates
       # Require OAuth 2.0 for authentication
       - "traefik.http.middlewares.test-auth.forwardauth.address=https://${FQDN}/oauth2/auth"
       - "traefik.http.middlewares.test-auth.forwardauth.trustForwardHeader=true"
